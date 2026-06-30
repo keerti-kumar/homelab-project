@@ -17,6 +17,7 @@
 <br>
 
 ![Both VMs listed in VirtualBox](../images/vms_created.png)
+
 *Figure 1: Initial deployment of pfSense and Ubuntu virtual machines.*
 
 
