@@ -12,8 +12,9 @@ A virtualised home network I'm building to get proper hands-on experience with n
 - **Hypervisor:** VirtualBox
 - **VMs:**
   - pfSense (router/firewall)
-  - Kali Linux (attack machine)
-  - Ubuntu (client machine)
+  - Ubuntu 24.04 LTS (client machine)
+
+Kali Linux will be added later as an attack machine once I get the base network between pfSense and Ubuntu up and running.
 
 ## Structure
 
