@@ -17,9 +17,48 @@
 <br>
 
 ![Both VMs listed in VirtualBox](../images/vms_created.png)
-
+<br>
 *Figure 1: Initial deployment of pfSense and Ubuntu virtual machines.*
 
+## 2 July 2026
+
+- Drew up a network topology diagram using draw.io to plan the homelab network before touching any settings, always better to design first and configure second.
+
+- pfSense VM settings updated before installation:
+  - Boot order changed to Hard Disk first, Optical second, Floppy removed
+  - USB controller disabled
+  - Adapter 1 confirmed as NAT (WAN)
+  - Adapter 2 enabled as Internal Network, named `ubuntu-lan` (LAN)
+
+- Installed pfSense 2.8.1
+
+- During installation, configured interfaces:
+  - WAN: em0, DHCP via VirtualBox NAT
+  - LAN: em1, static IP `10.0.0.1/24`, DHCP pool `10.0.0.100-10.0.0.199`
+
+- Avoided `192.168.1.x` for the LAN subnet as it's too common and risks conflicting with home router ranges. Went with `10.0.0.0/24` instead.
+
+- Verified pfSense console showed correct interface assignment and IP configuration after boot.
+
+- Ubuntu VM network adapter changed to Internal Network / `ubuntu-lan` in preparation for connectivity testing. VM not booted yet.
+
+- Snapshot taken of pfSense VM post-install as a restore point before any further configuration.
+
+### Screenshots
+
+![My initial network topology diagram](../images/initial_network_topology.png)
+<br>
+*Figure 2: Initial diagram of the current network topology.*
+
+<br>
+
+![pfSense console showing interface assignment](../images/pfsense_console.png)
+<br>
+*Figure 3: pfSense console confirming LAN interface assigned to em1 at 10.0.0.1/24*
+
+### Notes & Resources Used
+- Referenced [David Varghese's homelab blog series](https://blog.davidvarghese.dev/posts/building-home-lab-part-2/) for pfSense VM configuration and installation steps.
 
 ### Next Steps
-- Network configuration (WAN/LAN adapters, IP addressing, routing between machines) intentionally left for a later session. Today was just about getting both VMs created and installed.
+- Boot Ubuntu and verify network connectivity through pfSense
+- Access pfSense web GUI and complete initial configuration
