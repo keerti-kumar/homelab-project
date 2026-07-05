@@ -22,7 +22,7 @@
 
 ## 2 July 2026
 
-- Drew up a network topology diagram using draw.io to plan the homelab network before touching any settings, always better to design first and configure second.
+- Drew up a network topology diagram in draw.io before touching any configuration, to avoid unnecessary rework and have a clear picture of what I was building.
 
 - pfSense VM settings updated before installation:
   - Boot order changed to Hard Disk first, Optical second, Floppy removed
@@ -72,22 +72,24 @@ default via 10.0.0.1 dev enp0s3 proto dhcp src 10.0.0.XXX metric 100
 10.0.0.0/24 dev enp0s3 proto kernel scope link src 10.0.0.XXX metric 100
 ```
 
-- Accessed pfSense web GUI from Ubuntu's browser at 10.0.0.1 and 
-completed the setup wizard
-- Notable configurations:
-  - Configured hostname and domain for the local network
+- Accessed pfSense web GUI from Ubuntu's browser at 10.0.0.1 and completed the setup wizard.
+
+  Notable configurations:
+  - Configured the pfSense hostname and local domain during the setup wizard
   - DNS: 8.8.8.8 / 8.8.4.4 with forwarding mode enabled, override setting off so these DNS servers will be used no matter what
   - Timezone: Pacific/Auckland
-  - Changed admin password from default
+  - Changed the default administrative password during initial configuration for additional security
 
 - Noticed `Block bogon networks` was still enabled on the WAN interface after completing the wizard.
-  - This needed to be unchecked because VirtualBox NAT assigns a private IP to the WAN interface, and bogon blocking can interfere with that
+  - This needed to be unchecked because VirtualBox NAT assigns a private IP to the WAN interface, and bogon blocking can interfere with that.
   - This setting is only appropriate when WAN is a real public-facing interface, which in this case, it is not.
   - I correctly unchecked `Block private networks` the first time going through the wizard.
 
 - Confirmed full internet connectivity with 0% packet loss pinging both 8.8.8.8 and google.com from the Ubuntu VM, confirming DNS resolution is also working.
 
 - Snapshots taken of both VMs at this confirmed working state as restore points.
+
+- Minor config note: Removed the floppy drive from Ubuntu's boot order as it was unnecessary.
 
 <br>
 
