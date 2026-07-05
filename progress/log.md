@@ -59,6 +59,45 @@
 ### Notes & Resources Used
 - Referenced [David Varghese's homelab blog series](https://blog.davidvarghese.dev/posts/building-home-lab-part-2/) for pfSense VM configuration and installation steps.
 
+## 5 July 2026
+
+- Booted pfSense and Ubuntu together for the first time to test network connectivity.
+
+- Verified that Ubuntu successfully received a DHCP address from pfSense (10.0.0.XXX/24) on the ubuntu-lan internal network.
+
+- Confirmed default gateway pointing to pfSense (10.0.0.1) via `ip route`. Output shown below:
+
+```
+default via 10.0.0.1 dev enp0s3 proto dhcp src 10.0.0.XXX metric 100
+10.0.0.0/24 dev enp0s3 proto kernel scope link src 10.0.0.XXX metric 100
+```
+
+- Accessed pfSense web GUI from Ubuntu's browser at 10.0.0.1 and 
+completed the setup wizard
+- Notable configurations:
+  - Configured hostname and domain for the local network
+  - DNS: 8.8.8.8 / 8.8.4.4 with forwarding mode enabled, override setting off so these DNS servers will be used no matter what
+  - Timezone: Pacific/Auckland
+  - Changed admin password from default
+
+- Noticed `Block bogon networks` was still enabled on the WAN interface after completing the wizard.
+  - This needed to be unchecked because VirtualBox NAT assigns a private IP to the WAN interface, and bogon blocking can interfere with that
+  - This setting is only appropriate when WAN is a real public-facing interface, which in this case, it is not.
+  - I correctly unchecked `Block private networks` the first time going through the wizard.
+
+- Confirmed full internet connectivity with 0% packet loss pinging both 8.8.8.8 and google.com from the Ubuntu VM, confirming DNS resolution is also working.
+
+- Snapshots taken of both VMs at this confirmed working state as restore points.
+
+<br>
+
+![Ping connectivity test results](../images/ubuntu_connectivity_test.png)
+<br>
+*Figure 4: Successful ping to 8.8.8.8 and google.com confirming internet connectivity through pfSense.*
+
+### Notes & Resources Used
+- Referenced official Netgate pfSense setup wizard documentation
+
 ### Next Steps
-- Boot Ubuntu and verify network connectivity through pfSense
-- Access pfSense web GUI and complete initial configuration
+- Add Kali Linux as attack machine and configure third network adapter
+- Begin active security exercises
